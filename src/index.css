@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter Variable', sans-serif;
+  color:#262626;
+  margin-right: calc(-1 * (100vw - 100%));
+  overflow-x:hidden;
+}
+
+
