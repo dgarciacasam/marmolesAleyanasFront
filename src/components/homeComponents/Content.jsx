@@ -28,6 +28,7 @@ const DAYS = [
 export const Content = () => {
   const [projects, setProjects] = useState([])
   const [selectedProject, setSelectedProject] = useState()
+  const [search, setSearch] = useState('')
 
   const handleSelectProject = (projectId) => {
     const project = projects.find((project) => project.id === projectId)
@@ -41,13 +42,49 @@ export const Content = () => {
     }
 
     fetchData()
+    console.log('hola')
   }, [])
+
+  //Filtramos por nombre, dni/nif o fecha
+  const filteredProjects = projects.filter((project) => {
+    const lowerCaseSearchTerm = search.toLowerCase()
+    return (
+      project.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+      project.dninif.toLowerCase().includes(lowerCaseSearchTerm) ||
+      new Date(project.finishDate)
+        .toLocaleDateString('es-ES')
+        .includes(lowerCaseSearchTerm)
+    )
+  })
 
   if (selectedProject === undefined) {
     return (
       <ContentLayout title='Pedidos'>
-        <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8'>
-          {projects.map((project) => {
+        <div className='flex items-center space-x-2'>
+          <svg
+            width='24'
+            height='24'
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            strokeWidth='2'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            className='icon icon-tabler icons-tabler-outline icon-tabler-search'
+          >
+            <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+            <path d='M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0' />
+            <path d='M21 21l-6 -6' />
+          </svg>
+          <input
+            type='search'
+            placeholder='Buscar'
+            className='p-2 border border-1 focus-visible:outline-none rounded text-sm '
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+        <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-4'>
+          {filteredProjects.map((project) => {
             const date = new Date(project.finishDate)
             const formattedDate = `${
               DAYS[date.getUTCDay()]

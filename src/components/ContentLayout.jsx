@@ -22,9 +22,11 @@ export const ContentLayout = ({
           {title}
         </h1>
         {!button && (
-          <button className='font-medium rounded bg-yellow-400 px-4 py-2 hover:scale-110 transition'>
-            Añadir nuevo trabajo
-          </button>
+          <div className='flex'>
+            <button className='font-medium rounded bg-yellow-400 px-4 py-2 hover:scale-110 hover:font-semibold transition'>
+              Nuevo trabajo
+            </button>
+          </div>
         )}
       </div>
 
