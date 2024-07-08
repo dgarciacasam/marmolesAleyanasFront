@@ -1,0 +1,12 @@
+.inputContainer > *:last-child{
+    order:-1
+} 
+
+.searchInput:focus + svg{
+    animation: bounce2 1.5s ease;
+}
+
+@keyframes bounce2 {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    20% {transform: translateY(-15px);}
+}

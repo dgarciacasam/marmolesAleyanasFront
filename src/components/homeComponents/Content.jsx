@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { getProjects } from '../../services/projects'
 import { Project } from './Project'
 import { ContentLayout } from '../ContentLayout'
+import styles from '../css/Content.module.css'
+
 const MONTHS = [
   'Enero',
   'Febrero',
@@ -29,6 +31,7 @@ export const Content = () => {
   const [projects, setProjects] = useState([])
   const [selectedProject, setSelectedProject] = useState()
   const [search, setSearch] = useState('')
+  const [order, setOrder] = useState()
 
   const handleSelectProject = (projectId) => {
     const project = projects.find((project) => project.id === projectId)
@@ -42,7 +45,6 @@ export const Content = () => {
     }
 
     fetchData()
-    console.log('hola')
   }, [])
 
   //Filtramos por nombre, dni/nif o fecha
@@ -57,31 +59,77 @@ export const Content = () => {
     )
   })
 
+  //Ordenamos los proyectos por orden de creación por defecto, nombre o fecha de finalización
+  filteredProjects.sort((a, b) => {
+    if (order === 'name') return a.name.localeCompare(b.name)
+    if (order === 'finishDate')
+      return new Date(a.finishDate) - new Date(b.finishDate)
+    return
+  })
+
   if (selectedProject === undefined) {
     return (
       <ContentLayout title='Pedidos'>
-        <div className='flex items-center space-x-2'>
-          <svg
-            width='24'
-            height='24'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            className='icon icon-tabler icons-tabler-outline icon-tabler-search'
-          >
-            <path stroke='none' d='M0 0h24v24H0z' fill='none' />
-            <path d='M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0' />
-            <path d='M21 21l-6 -6' />
-          </svg>
-          <input
-            type='search'
-            placeholder='Buscar'
-            className='p-2 border border-1 focus-visible:outline-none rounded text-sm '
-            onChange={(e) => setSearch(e.target.value)}
-          />
+        <div className='flex justify-between'>
+          <div className={'flex items-center ' + styles.inputContainer}>
+            <input
+              type='search'
+              placeholder='Buscar'
+              className={
+                'p-2 border border-1 rounded text-sm focus-visible:outline-none focus:border-black transition ml-2 ' +
+                styles.searchInput
+              }
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <svg
+              width='24'
+              height='24'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              className={
+                'icon icon-tabler icons-tabler-outline icon-tabler-search '
+              }
+            >
+              <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+              <path d='M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0' />
+              <path d='M21 21l-6 -6' />
+            </svg>
+          </div>
+          <div className='flex items-center'>
+            <svg
+              width='24'
+              height='24'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              className={
+                'icon icon-tabler icons-tabler-outline icon-tabler-arrows-down-up ' +
+                styles.bounce
+              }
+            >
+              <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+              <path d='M17 3l0 18' />
+              <path d='M10 18l-3 3l-3 -3' />
+              <path d='M7 21l0 -18' />
+              <path d='M20 6l-3 -3l-3 3' />
+            </svg>
+            <select
+              name='orderSelect'
+              className='font-medium ml-2 p-1 border rounded focus:rounded hover:border-black focus-visible:rounded focus-visible:outline-none transition'
+              onChange={(e) => setOrder(e.target.value)}
+            >
+              <option value=''>Fecha de pedido</option>
+              <option value='name'>Nombre</option>
+              <option value='finishDate'>Fecha de finalización</option>
+            </select>
+          </div>
         </div>
         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-4'>
           {filteredProjects.map((project) => {
