@@ -1,3 +1,5 @@
+import {Button, Dialog, DialogTrigger, Heading, Input, Label, Modal, TextField} from 'react-aria-components';
+import './css/ContentLayout.css'
 export const ContentLayout = ({
   title,
   children,
@@ -22,11 +24,15 @@ export const ContentLayout = ({
           {title}
         </h1>
         {!button && (
-          <div className='flex'>
-            <button className='font-medium rounded bg-yellow-400 px-4 py-2 hover:scale-110 hover:font-semibold transition'>
-              Nuevo trabajo
-            </button>
-          </div>
+          <DialogTrigger>
+          <Button className='font-medium rounded bg-yellow-400 px-4 py-2 hover:scale-110 hover:font-semibold transition'>Nuevo trabajo</Button>
+          <Modal isDismissable>
+            <Dialog>
+              <Heading slot="title">Notice</Heading>
+              <p>Click outside to close this dialog.</p>
+            </Dialog>
+          </Modal>
+          </DialogTrigger>
         )}
       </div>
 
