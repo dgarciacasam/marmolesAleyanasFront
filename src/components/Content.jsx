@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getProjects } from '../services/projects'
+import { deleteProject, getProjects } from '../services/projects'
 import { Project } from './homeComponents/Project'
 import { ContentLayout } from './ContentLayout'
 import styles from './css/Content.module.css'
@@ -38,6 +38,15 @@ export const Content = () => {
   const handleSelectProject = (projectId) => {
     const project = projects.find((project) => project.id === projectId)
     setSelectedProject(project)
+  }
+
+  const handleDeleteProject = (id, name, dninif) => {
+    const isDeleted = deleteProject(id, name, dninif)
+    if (isDeleted !== null) {
+      const newProjectArray = projects.filter((project) => project.id !== id)
+      console.log(newProjectArray)
+      setProjects(newProjectArray)
+    }
   }
 
   useEffect(() => {
@@ -113,7 +122,16 @@ export const Content = () => {
             } de ${date.getFullYear()}`
             return (
               <div className='relative' key={project.id}>
-                <button className='absolute -right-5 -top-3 p-2 bg-stone-200 border  hover:bg-[#FF5733] rounded-full  transition'>
+                <button
+                  className='absolute -right-5 -top-3 p-2 bg-stone-200 border  hover:bg-[#FF5733] rounded-full  transition'
+                  onClick={() =>
+                    handleDeleteProject(
+                      project.id,
+                      project.name,
+                      project.dninif
+                    )
+                  }
+                >
                   <svg
                     width='24'
                     height='24'
