@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { deleteProject, getProjects } from '../services/projects'
-import { Project } from './homeComponents/Project'
+import { Project } from './ContentComponents/Project'
 import { ContentLayout } from './ContentLayout'
 
-import { CustomSelectComponents } from './homeComponents/CustomSelectCompontent'
-import { CustomInputComponent } from './homeComponents/CustomInputComponent'
+import { CustomSelectComponents } from './ContentComponents/CustomSelectCompontent'
+import { CustomInputComponent } from './ContentComponents/CustomInputComponent'
 import {
   Button,
   Dialog,
@@ -15,7 +15,7 @@ import {
   Modal,
   TextField,
 } from 'react-aria-components'
-import { ProjectCardComponent } from './homeComponents/ProjectCardComponent'
+import { ProjectCardComponent } from './ContentComponents/ProjectCardComponent'
 
 export const Content = () => {
   const [projects, setProjects] = useState([])
