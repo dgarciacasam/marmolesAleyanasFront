@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react'
 import { deleteProject, getProjects } from '../services/projects'
 import { Project } from './homeComponents/Project'
 import { ContentLayout } from './ContentLayout'
-import styles from './css/Content.module.css'
+
 import { CustomSelectComponents } from './homeComponents/CustomSelectCompontent'
+import { CustomInputComponent } from './homeComponents/CustomInputComponent'
 
 const MONTHS = [
   'Enero',
@@ -34,6 +35,7 @@ export const Content = () => {
   const [selectedProject, setSelectedProject] = useState()
   const [search, setSearch] = useState('')
   const [order, setOrder] = useState('')
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   const handleSelectProject = (projectId) => {
     const project = projects.find((project) => project.id === projectId)
@@ -81,35 +83,8 @@ export const Content = () => {
   if (selectedProject === undefined) {
     return (
       <ContentLayout title='Pedidos'>
-        <div className='flex  flex-col justify-between xl:flex-row'>
-          <div className={'flex items-center ' + styles.inputContainer}>
-            <input
-              type='search'
-              placeholder='Buscar'
-              className={
-                'p-2 border border-1 rounded text-sm focus-visible:outline-none focus:border-black transition ml-2 ' +
-                styles.searchInput
-              }
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <svg
-              width='24'
-              height='24'
-              viewBox='0 0 24 24'
-              fill='none'
-              stroke='currentColor'
-              strokeWidth='2'
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              className={
-                'icon icon-tabler icons-tabler-outline icon-tabler-search '
-              }
-            >
-              <path stroke='none' d='M0 0h24v24H0z' fill='none' />
-              <path d='M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0' />
-              <path d='M21 21l-6 -6' />
-            </svg>
-          </div>
+        <div className='flex flex-col justify-between items-center xl:flex-row'>
+          <CustomInputComponent setSearch={setSearch} />
           <CustomSelectComponents setOrder={setOrder} />
         </div>
         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-4'>
