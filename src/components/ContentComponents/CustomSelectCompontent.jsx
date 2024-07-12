@@ -4,36 +4,40 @@ const orderOptions = [
   { key: 'name', value: 'Nombre' },
 ]
 
-export const CustomSelectComponents = ({ setOrder }) => {
+export const CustomSelectComponents = ({ order, setOrder }) => {
   const showCustomSelect = () => {
     document.querySelector('#customOptions').classList.toggle('hidden')
   }
+  console.log(order)
+  const orderName = orderOptions.find((option) => option.key === order).value
 
   return (
     <div className='flex items-center'>
       <div className='relative'>
         <div
-          className='flex p-2 w-full border rounded hover:border-black items-center justify-center space-x-2 cursor-pointer transition'
+          className='flex p-2 w-full min-w-[15rem] border rounded hover:border-black items-center justify-between space-x-2 cursor-pointer transition text-left'
           onClick={() => showCustomSelect()}
         >
-          <svg
-            width='24'
-            height='24'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='rgb(24 24 27)'
-            strokeWidth='2'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            className='icon icon-tabler icons-tabler-outline icon-tabler-arrows-down-up size-4'
-          >
-            <path stroke='none' d='M0 0h24v24H0z' fill='none' />
-            <path d='M17 3l0 18' />
-            <path d='M10 18l-3 3l-3 -3' />
-            <path d='M7 21l0 -18' />
-            <path d='M20 6l-3 -3l-3 3' />
-          </svg>
-          <p className='font-medium pointer-events-none'>Fecha de pedido</p>
+          <div className='flex items-center justify-start gap-2'>
+            <svg
+              width='24'
+              height='24'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='rgb(24 24 27)'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              className='icon icon-tabler icons-tabler-outline icon-tabler-arrows-down-up size-4'
+            >
+              <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+              <path d='M17 3l0 18' />
+              <path d='M10 18l-3 3l-3 -3' />
+              <path d='M7 21l0 -18' />
+              <path d='M20 6l-3 -3l-3 3' />
+            </svg>
+            <p className='font-medium pointer-events-none'>{orderName}</p>
+          </div>
           <svg
             width='24'
             height='24'
@@ -60,10 +64,9 @@ export const CustomSelectComponents = ({ setOrder }) => {
               onClick={() => {
                 setOrder(option.key)
                 showCustomSelect()
-                console.log(option.value)
               }}
             >
-              <p>{option.value}</p>
+              <p className='whitespace-nowrap	'>{option.value}</p>
             </li>
           ))}
         </ul>

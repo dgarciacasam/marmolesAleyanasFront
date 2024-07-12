@@ -73,7 +73,7 @@ export const Content = () => {
       <ContentLayout title='Pedidos'>
         <div className='flex flex-col justify-between items-center xl:flex-row'>
           <CustomInputComponent setSearch={setSearch} />
-          <CustomSelectComponents setOrder={setOrder} />
+          <CustomSelectComponents order={order} setOrder={setOrder} />
         </div>
         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-4'>
           {filteredProjects.map((project) => (
