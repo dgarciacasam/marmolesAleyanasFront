@@ -1,4 +1,4 @@
-import styles from '../css/Content.module.css'
+import styles from './css/NewProjectButton.module.css'
 
 export const CustomInputComponent = ({ setSearch }) => {
   return (

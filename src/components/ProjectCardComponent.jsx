@@ -1,10 +1,12 @@
-import { DAYS, MONTHS } from '../../services/utils'
+import { DAYS, MONTHS } from '../services/utils'
 
 export const ProjectCardComponent = ({
   project,
   handleSelectProject,
   setProjectToDelete,
   setShowDeleteModal,
+  setShowUpdateModal,
+  setProjectToUpdate,
 }) => {
   const date = new Date(project.finishDate)
   const formattedDate = `${DAYS[date.getUTCDay()]} ${date.getUTCDate()} de ${
@@ -15,8 +17,8 @@ export const ProjectCardComponent = ({
       <button
         className='absolute right-8 -top-3 p-2 bg-stone-200 border  hover:bg-[#FF5733] rounded-full  transition'
         onClick={() => {
-          setProjectToDelete(project)
-          setShowDeleteModal(true)
+          setProjectToUpdate(project)
+          setShowUpdateModal(true)
         }}
       >
         <svg
@@ -36,7 +38,7 @@ export const ProjectCardComponent = ({
         </svg>
       </button>
       <button
-        className='absolute -right-5 -top-3 p-2 bg-stone-200 border  hover:bg-[#FF5733] rounded-full  transition'
+        className='absolute -right-5 -top-3 p-2 bg-stone-200 border hover:text-white hover:bg-[#FF5733] rounded-full  transition'
         onClick={() => {
           setProjectToDelete(project)
           setShowDeleteModal(true)
@@ -66,7 +68,7 @@ export const ProjectCardComponent = ({
         onClick={() => handleSelectProject(project.id)}
         key={project.id}
       >
-        <h3 className='text-lg font-bold'>
+        <h3 className='text-xl font-bold'>
           {project.name} - {project.dninif}
         </h3>
         <p className='mt-3 flex space-x-1'>
@@ -86,7 +88,7 @@ export const ProjectCardComponent = ({
             <path d='M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2' />
           </svg>
           <span>
-            - {project.phone}{' '}
+            {project.phone}{' '}
             {project.altphone !== null && `// ${project.altphone}`}
           </span>
         </p>
@@ -106,7 +108,7 @@ export const ProjectCardComponent = ({
             <path d='M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z' />
             <path d='M3 7l9 6l9 -6' />
           </svg>
-          <span>- {project.email}</span>
+          <span> {project.email}</span>
         </p>
         <p className='flex space-x-1'>
           <svg
@@ -127,7 +129,7 @@ export const ProjectCardComponent = ({
             <path d='M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.125 1.045 2.121 1.879c1.051 -.89 1.759 -1.516 2.121 -1.879z' />
             <path d='M19 18v.01' />
           </svg>
-          <span>- {project.address || 'Preguntar dirección del nicho'}</span>
+          <span> {project.address || 'Preguntar dirección del nicho'}</span>
         </p>
         {project.finishDate !== null && (
           <p className='mt-3 font-semibold'>

@@ -1,0 +1,19 @@
+/*.datepickerToggle {
+  display: inline-block;
+  position: relative;
+  width: 18px;
+  height: 19px;
+}*/
+
+.datepickerToggleButton {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('data:image/svg+xml;base64,...');
+}
+
+.datepickerInput::-webkit-calendar-picker-indicator {
+  display: none;
+}

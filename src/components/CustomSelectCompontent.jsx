@@ -8,7 +8,6 @@ export const CustomSelectComponents = ({ order, setOrder }) => {
   const showCustomSelect = () => {
     document.querySelector('#customOptions').classList.toggle('hidden')
   }
-  console.log(order)
   const orderName = orderOptions.find((option) => option.key === order).value
 
   return (
