@@ -42,6 +42,8 @@ export const createProject = async (project) => {
   }).then(async (response) => {
     if (!response.ok) {
       if (response.status === 401) {
+        sessionStorage.removeItem('jwt')
+        window.location.reload()
         throw new Error('El token no es válido o ha expirado')
       } else {
         throw new Error('Error del servidor')
@@ -64,13 +66,14 @@ export const updateProject = async (projectId, project) => {
   }).then(async (response) => {
     if (!response.ok) {
       if (response.status === 401) {
-        throw new Error('Error al modificar el trabajo')
+        sessionStorage.removeItem('jwt')
+        window.location.reload()
+        throw new Error('El token no es válido o ha expirado')
       } else {
         throw new Error('Error del servidor')
       }
     }
 
-    toast.success('Se ha modificado el trabajo con éxito')
     return await response.json()
   })
 }
