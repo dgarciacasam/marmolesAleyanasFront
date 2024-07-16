@@ -8,7 +8,7 @@ import {
 import { useState } from 'react'
 import { createProject } from '../services/projects'
 import { toast } from 'sonner'
-import styles from './css/NewProjectButton.module.css'
+import styles from './css/DateInput.module.css'
 import {
   initialFormData,
   dniValidator,
@@ -140,7 +140,7 @@ export const CreateProjectButton = ({ projects, setProjects }) => {
                     name='name'
                     required
                     className='p-2 border rounded'
-                    placeholder='Nombre'
+                    placeholder='Nombre y apellidos'
                     value={formData.name}
                     onChange={handleChange}
                   />

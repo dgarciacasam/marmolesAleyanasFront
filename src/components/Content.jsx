@@ -6,7 +6,7 @@ import { CustomInputComponent } from './CustomInputComponent'
 import { ProjectCardComponent } from './ProjectCardComponent'
 import { DeleteModalComponent } from './DeleteModalComponent'
 import { UpdateProjectModal } from './UpdateProjectModal'
-import { deleteProject, getProjects } from '../services/projects'
+import { deleteProject, getProjects, updateProject } from '../services/projects'
 import './css/ContentLayout.css'
 import { initialFormData } from '../services/utils'
 
@@ -36,14 +36,15 @@ export const Content = () => {
     }
   }
 
-  const handleUpdateProject = () => {}
+  const handleUpdateProject = (id, project) => {
+    //const isUpdated = updateProject(id, project)
+  }
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await getProjects()
       setProjects(data)
     }
-
     fetchData()
   }, [])
 
@@ -106,8 +107,8 @@ export const Content = () => {
           <UpdateProjectModal
             showModal={showUpdateModal}
             project={projectToUpdate}
-            setProjects={setProjects}
-            handleSubmit={handleUpdateProject}
+            setProject={setProjectToUpdate}
+            handleUpdateProject={handleUpdateProject}
             setShowUpdateModal={setShowUpdateModal}
           />
         </section>

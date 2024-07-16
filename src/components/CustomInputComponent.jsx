@@ -1,5 +1,4 @@
-import styles from './css/NewProjectButton.module.css'
-
+import styles from './css/Content.module.css'
 export const CustomInputComponent = ({ setSearch }) => {
   return (
     <div className='flex items-center'>
