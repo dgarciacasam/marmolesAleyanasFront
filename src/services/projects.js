@@ -14,6 +14,8 @@ export const getProjects = async () => {
     .then(async (response) => {
       if (!response.ok) {
         if (response.status === 401) {
+          sessionStorage.removeItem('jwt')
+          window.location.reload()
           throw new Error('El token no es válido o ha expirado')
         } else {
           throw new Error('Error del servidor')
@@ -50,7 +52,7 @@ export const createProject = async (project) => {
   })
 }
 
-export const updateProject = async (project, projectId) => {
+export const updateProject = async (projectId, project) => {
   const token = getToken()
   return fetch(`${API_HOST}/api/projects/${projectId}`, {
     method: 'PUT',
