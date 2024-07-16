@@ -1,8 +1,9 @@
-import { Dialog, Heading, Modal } from 'react-aria-components'
 import styles from './css/DateInput.module.css'
-import { getCurrentDate, initialFormData } from '../services/utils'
-import { useState } from 'react'
+import { Dialog, Heading, Modal } from 'react-aria-components'
 import { updateProject } from '../services/projects'
+import { dniValidator, initialFormData } from '../services/utils'
+import { toast } from 'sonner'
+import { useState } from 'react'
 
 export const UpdateProjectModal = ({
   showModal,
@@ -10,12 +11,14 @@ export const UpdateProjectModal = ({
   setProject,
   setShowUpdateModal,
 }) => {
-  const currentDate = getCurrentDate()
+  const [formData, setFormData] = useState(null)
+
+  const data = formData ?? project
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setProject({
-      ...project,
+    setFormData({
+      ...data,
       [name]: value,
     })
   }
@@ -23,18 +26,29 @@ export const UpdateProjectModal = ({
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if (!dniValidator(project.dninif ?? '')) {
+    console.log('formdata')
+    console.log(formData)
+    console.log('data')
+    console.log(data)
+    console.log('project')
+    console.log(project)
+    // Compara el proyecto actual con el proyecto inicial
+    if (JSON.stringify(formData) === JSON.stringify(project)) {
+      toast.error('No se ha hecho ningún cambio en el formulario')
       return
     }
 
-    toast.promise(updateProject(formData), {
+    if (!dniValidator(data.dninif)) {
+      return
+    }
+
+    toast.promise(updateProject(formData.id, formData), {
       loading: 'Procesando petición...',
       success: (updatedProject) => {
-        setFormData(initialFormData)
+        //setFormData(initialFormData)
         setShowUpdateModal(false)
 
         //Hacemos los cambios en el front
-        console.log(updatedProject)
 
         return 'El trabajo se ha modificado con éxito'
       },
@@ -45,7 +59,7 @@ export const UpdateProjectModal = ({
   }
 
   const handleCancel = () => {
-    //setFormData(initialFormData)
+    setFormData(null)
     setShowUpdateModal(false)
   }
 
@@ -90,7 +104,7 @@ export const UpdateProjectModal = ({
                   type='text'
                   id='dninif'
                   name='dninif'
-                  value={project.dninif ?? ''}
+                  value={data.dninif}
                   pattern='^(\d{8})([A-Z])$'
                   placeholder='DNI NIF'
                   className='p-2 border rounded'
@@ -120,7 +134,7 @@ export const UpdateProjectModal = ({
                   name='name'
                   placeholder='Nombre y apellidos'
                   className='p-2 border rounded'
-                  value={project.name}
+                  value={data.name}
                   onChange={handleChange}
                 />
               </div>
@@ -152,7 +166,7 @@ export const UpdateProjectModal = ({
                   name='address'
                   className='p-2 border rounded'
                   placeholder='Dirección'
-                  value={project.address}
+                  value={data.address}
                   onChange={handleChange}
                 />
               </div>
@@ -179,7 +193,7 @@ export const UpdateProjectModal = ({
                   name='email'
                   className='p-2 border rounded'
                   placeholder='Correo electrónico'
-                  value={project.email}
+                  value={data.email}
                   onChange={handleChange}
                 />
               </div>
@@ -208,7 +222,7 @@ export const UpdateProjectModal = ({
                   pattern='^\d{9}$'
                   className='p-2 border rounded'
                   placeholder='Teléfono'
-                  value={project.phone}
+                  value={data.phone}
                   onChange={handleChange}
                 />
               </div>
@@ -243,7 +257,7 @@ export const UpdateProjectModal = ({
                   className='p-2 border rounded'
                   pattern='^\d{9}$'
                   placeholder='Teléfono alternativo'
-                  value={project.altphone ?? ''}
+                  value={data.altphone}
                   onChange={handleChange}
                 />
               </div>
@@ -287,8 +301,8 @@ export const UpdateProjectModal = ({
                 id='finishDate'
                 name='finishDate'
                 className={'p-2 border rounded ' + styles.datepickerInput}
-                value={project.finishDate}
-                min={currentDate}
+                value={data.finishDate}
+                min={data.finishDate}
                 onChange={handleChange}
               />
             </div>
@@ -302,7 +316,9 @@ export const UpdateProjectModal = ({
               <button
                 type='button'
                 className='w-full text-lg border border-1 border-neutral-500 rounded py-2 px-4 '
-                onClick={handleCancel}
+                onClick={() => {
+                  handleCancel()
+                }}
               >
                 Cancelar
               </button>
