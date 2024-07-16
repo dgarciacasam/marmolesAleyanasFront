@@ -7,9 +7,9 @@ import { useState } from 'react'
 
 export const UpdateProjectModal = ({
   showModal,
-  project,
-  setProject,
   setShowUpdateModal,
+  project,
+  onUpdateProject,
 }) => {
   const [formData, setFormData] = useState(null)
 
@@ -38,10 +38,9 @@ export const UpdateProjectModal = ({
     toast.promise(updateProject(formData.id, formData), {
       loading: 'Procesando petición...',
       success: (updatedProject) => {
-        //setFormData(initialFormData)
+        setFormData(null)
         setShowUpdateModal(false)
-
-        //Hacemos los cambios en el front
+        onUpdateProject(updatedProject.id, updatedProject)
 
         return 'El trabajo se ha modificado con éxito'
       },

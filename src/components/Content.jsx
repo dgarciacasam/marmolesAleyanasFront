@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import './css/ContentLayout.css'
 import { Project } from './Project'
 import { CreateProjectButton } from './CreateProjectButton'
 import { CustomSelectComponents } from './CustomSelectCompontent'
@@ -7,7 +8,6 @@ import { ProjectCardComponent } from './ProjectCardComponent'
 import { DeleteModalComponent } from './DeleteModalComponent'
 import { UpdateProjectModal } from './UpdateProjectModal'
 import { getProjects } from '../services/projects'
-import './css/ContentLayout.css'
 import { initialFormData } from '../services/utils'
 
 export const Content = () => {
@@ -27,8 +27,15 @@ export const Content = () => {
     setSelectedProject(project)
   }
 
-  const handleUpdateProject = (id, project) => {
-    //const isUpdated = updateProject(id, project)
+  const handleUpdateProject = (id, newProject) => {
+    const newArray = projects.map((project) => {
+      if (project.id === id) {
+        return newProject
+      }
+      return project
+    })
+
+    setProjects(newArray)
   }
 
   useEffect(() => {
@@ -65,8 +72,8 @@ export const Content = () => {
         <div className='font-medium flex justify-between'>
           <h1 className='text-3xl'>Pedidos</h1>
           <CreateProjectButton
-            OnaddNewProject={(newProject) => {
-              setProjects(...projects, newProject)
+            onAddNewProject={(newProject) => {
+              setProjects([...projects, newProject])
             }}
           />
         </div>
@@ -105,10 +112,9 @@ export const Content = () => {
           {/* Modal para editar un trabajo */}
           <UpdateProjectModal
             showModal={showUpdateModal}
-            project={projectToUpdate}
-            setProject={setProjectToUpdate}
-            handleUpdateProject={handleUpdateProject}
             setShowUpdateModal={setShowUpdateModal}
+            project={projectToUpdate}
+            onUpdateProject={handleUpdateProject}
           />
         </section>
       </main>
