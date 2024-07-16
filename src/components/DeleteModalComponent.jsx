@@ -8,13 +8,22 @@ import {
   Modal,
   TextField,
 } from 'react-aria-components'
+import { deleteProject } from '../services/projects'
 
 export const DeleteModalComponent = ({
   showDeleteModal,
   setShowDeleteModal,
-  handleDeleteProject,
+  onDeleteProject,
   projectToDelete,
 }) => {
+  const handleDeleteProject = (id, name, dninif) => {
+    const isDeleted = deleteProject(id, name, dninif)
+    if (isDeleted !== null) {
+      setShowDeleteModal(false)
+      onDeleteProject(id)
+    }
+  }
+
   return (
     <Modal
       isOpen={showDeleteModal}

@@ -6,7 +6,7 @@ import { CustomInputComponent } from './CustomInputComponent'
 import { ProjectCardComponent } from './ProjectCardComponent'
 import { DeleteModalComponent } from './DeleteModalComponent'
 import { UpdateProjectModal } from './UpdateProjectModal'
-import { deleteProject, getProjects, updateProject } from '../services/projects'
+import { getProjects } from '../services/projects'
 import './css/ContentLayout.css'
 import { initialFormData } from '../services/utils'
 
@@ -25,15 +25,6 @@ export const Content = () => {
   const handleSelectProject = (projectId) => {
     const project = projects.find((project) => project.id === projectId)
     setSelectedProject(project)
-  }
-
-  const handleDeleteProject = (id, name, dninif) => {
-    const isDeleted = deleteProject(id, name, dninif)
-    if (isDeleted !== null) {
-      setShowDeleteModal(false)
-      const newProjectArray = projects.filter((project) => project.id !== id)
-      setProjects(newProjectArray)
-    }
   }
 
   const handleUpdateProject = (id, project) => {
@@ -73,7 +64,11 @@ export const Content = () => {
       <main className='py-8 px-12 space-y-4'>
         <div className='font-medium flex justify-between'>
           <h1 className='text-3xl'>Pedidos</h1>
-          <CreateProjectButton projects={projects} setProjects={setProjects} />
+          <CreateProjectButton
+            OnaddNewProject={(newProject) => {
+              setProjects(...projects, newProject)
+            }}
+          />
         </div>
 
         <section className=' rounded '>
@@ -99,7 +94,11 @@ export const Content = () => {
           <DeleteModalComponent
             showDeleteModal={showDeleteModal}
             setShowDeleteModal={setShowDeleteModal}
-            handleDeleteProject={handleDeleteProject}
+            onDeleteProject={(projectId) => {
+              setProjects(
+                projects.filter((project) => project.id !== projectId)
+              )
+            }}
             projectToDelete={projectToDelete}
           />
 

@@ -25,13 +25,6 @@ export const UpdateProjectModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault()
-
-    console.log('formdata')
-    console.log(formData)
-    console.log('data')
-    console.log(data)
-    console.log('project')
-    console.log(project)
     // Compara el proyecto actual con el proyecto inicial
     if (JSON.stringify(formData) === JSON.stringify(project)) {
       toast.error('No se ha hecho ningún cambio en el formulario')

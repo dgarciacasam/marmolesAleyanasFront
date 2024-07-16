@@ -15,7 +15,7 @@ import {
   getCurrentDate,
 } from '../services/utils'
 
-export const CreateProjectButton = ({ projects, setProjects }) => {
+export const CreateProjectButton = ({ onAddNewProject }) => {
   const [formData, setFormData] = useState(initialFormData)
   const [showModal, setShowModal] = useState(false)
 
@@ -44,7 +44,7 @@ export const CreateProjectButton = ({ projects, setProjects }) => {
         setShowModal(false)
 
         //Hacemos los cambios en el front
-        setProjects([...projects, newProject])
+        onAddNewProject(newProject)
 
         return 'El trabajo se ha creado con éxito'
       },
