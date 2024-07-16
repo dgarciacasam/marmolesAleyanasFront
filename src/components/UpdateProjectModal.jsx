@@ -1,14 +1,5 @@
-import {
-  Button,
-  Dialog,
-  DialogTrigger,
-  Heading,
-  Input,
-  Label,
-  Modal,
-  TextField,
-} from 'react-aria-components'
-import styles from './css/NewProjectButton.module.css'
+import { Dialog, Heading, Modal } from 'react-aria-components'
+import styles from './css/DateInput.module.css'
 import { getCurrentDate, initialFormData } from '../services/utils'
 import { useState } from 'react'
 import { updateProject } from '../services/projects'
@@ -16,25 +7,23 @@ import { updateProject } from '../services/projects'
 export const UpdateProjectModal = ({
   showModal,
   project,
-  setProjects,
+  setProject,
   setShowUpdateModal,
 }) => {
-  const [formData, setFormData] = useState(project)
   const currentDate = getCurrentDate()
 
   const handleChange = (e) => {
-    console.log(e.target)
-    /*const { name, value } = e.target
-    setFormData({
-      ...formData,
+    const { name, value } = e.target
+    setProject({
+      ...project,
       [name]: value,
-    })*/
+    })
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if (!dniValidator(formData.dninif)) {
+    if (!dniValidator(project.dninif ?? '')) {
       return
     }
 
@@ -101,8 +90,9 @@ export const UpdateProjectModal = ({
                   type='text'
                   id='dninif'
                   name='dninif'
-                  value={project.dninif}
+                  value={project.dninif ?? ''}
                   pattern='^(\d{8})([A-Z])$'
+                  placeholder='DNI NIF'
                   className='p-2 border rounded'
                   onChange={handleChange}
                 />
@@ -128,8 +118,9 @@ export const UpdateProjectModal = ({
                   type='text'
                   id='name'
                   name='name'
+                  placeholder='Nombre y apellidos'
                   className='p-2 border rounded'
-                  placeholder={project.name}
+                  value={project.name}
                   onChange={handleChange}
                 />
               </div>
@@ -160,7 +151,8 @@ export const UpdateProjectModal = ({
                   id='address'
                   name='address'
                   className='p-2 border rounded'
-                  required={project.address}
+                  placeholder='Dirección'
+                  value={project.address}
                   onChange={handleChange}
                 />
               </div>
@@ -186,7 +178,8 @@ export const UpdateProjectModal = ({
                   id='email'
                   name='email'
                   className='p-2 border rounded'
-                  placeholder={project.email}
+                  placeholder='Correo electrónico'
+                  value={project.email}
                   onChange={handleChange}
                 />
               </div>
@@ -214,7 +207,8 @@ export const UpdateProjectModal = ({
                   name='phone'
                   pattern='^\d{9}$'
                   className='p-2 border rounded'
-                  placeholder={project.phone}
+                  placeholder='Teléfono'
+                  value={project.phone}
                   onChange={handleChange}
                 />
               </div>
@@ -248,7 +242,8 @@ export const UpdateProjectModal = ({
                   name='altphone'
                   className='p-2 border rounded'
                   pattern='^\d{9}$'
-                  placeholder={project.altphone ?? ''}
+                  placeholder='Teléfono alternativo'
+                  value={project.altphone ?? ''}
                   onChange={handleChange}
                 />
               </div>
